@@ -32,8 +32,14 @@ Premium features:
 - **Marketing Alliances**: Influencer and media outreach
 - **Tech Providers**: AI, hosting, and secure payments
 
+## AI Personalization Engine
+We use user behavior signals to adjust event feed ranking and recommendations.
+
 ## Monetization
 
 - Subscription tiers
 - Event promotion & advertising
 - Commission on ticket sales
+
+## Event Safety Protocols
+We ensure physical safety with identity verification and location control features.
