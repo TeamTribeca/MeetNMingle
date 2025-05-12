@@ -1,9 +1,11 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-functions.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 import firebaseConfig from '../config/firebaseConfig.js';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const functions = getFunctions(app);
 const interviewStep = httpsCallable(functions, 'interviewStep');
 
@@ -35,6 +37,13 @@ async function startAudioInterview() {
         reader.readAsDataURL(audioBlob);
         reader.onloadend = async () => {
           const base64Audio = reader.result.split(',')[1];
+
+          const user = auth.currentUser;
+          if (!user) {
+            console.error('No user is signed in.');
+            alert('You must be signed in to use this feature.');
+            return;
+          }
 
           // Send base64 audio to Firebase callable function
           try {

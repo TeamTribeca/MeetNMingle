@@ -9,7 +9,6 @@
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const cors = require("cors")({ origin: true }); // Add CORS middleware
 const { OpenAI } = require("openai");
 const { Readable } = require("stream");
 
@@ -18,6 +17,17 @@ const db = admin.firestore();
 
 // Use Firebase remote config for the OpenAI API key
 const openai = new OpenAI({ apiKey: functions.config().openai.key });
+
+// Define a simple HTTP function for api
+exports.api = functions.https.onRequest((req, res) => {
+  functions.logger.info("API function called!", { structuredData: true });
+  res.send("API function is running!");
+});
+
+exports.interviewStep = functions.https.onRequest((req, res) => {
+  functions.logger.info("Interview Step function called!", { structuredData: true });
+  res.send("Interview Step function is running!");
+});
 
 exports.interviewStep = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
@@ -84,11 +94,3 @@ Your job is to ask the user meaningful follow-up questions based on their previo
     }
   });
 });
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
